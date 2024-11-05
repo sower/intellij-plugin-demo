@@ -1,4 +1,4 @@
-package me.ylem.intellij.demo.jecf;
+package me.ylem.intellij.demo.jcef;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -7,10 +7,12 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.jcef.JBCefApp;
 import com.intellij.ui.jcef.JBCefBrowser;
+import com.intellij.ui.jcef.JBCefClient;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import org.cef.browser.CefMessageRouter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,11 +39,26 @@ public class JcefToolWindowFactory implements ToolWindowFactory {
         }
         // 创建 JBCefBrowser
         JBCefBrowser jbCefBrowser = new JBCefBrowser();
+        initBrowser(jbCefBrowser);
         // 将 JBCefBrowser 的UI控件设置到Panel中
         content.add(jbCefBrowser.getComponent(), BorderLayout.CENTER);
         // 加载URL
         jbCefBrowser.loadURL("https://papers.co");
         return content;
     }
+
+    private void initBrowser(JBCefBrowser browser) {
+        JBCefClient jbCefClient = browser.getJBCefClient();
+        jbCefClient.addKeyboardHandler(new KeyboardHandler(), browser.getCefBrowser());
+
+        // 处理来自 Chromium 浏览器的消息和事件
+        CefMessageRouter.CefMessageRouterConfig routerConfig =
+            new CefMessageRouter.CefMessageRouterConfig();
+        routerConfig.jsQueryFunction = "pluginQuery";
+        CefMessageRouter messageRouter = CefMessageRouter.create(routerConfig,
+            new MessageRouterHandler());
+        jbCefClient.getCefClient().addMessageRouter(messageRouter);
+    }
+
 }
 

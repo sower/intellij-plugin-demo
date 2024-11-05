@@ -33,14 +33,27 @@
       displayName="App Settings"/>
     <applicationService serviceImplementation="me.ylem.intellij.demo.setting.AppSettings"/>
 
-    <toolWindow id="JcefToolWindowFactory" icon="AllIcons.Xml.Browsers.Chromium" anchor="right"
-      factoryClass="me.ylem.intellij.demo.jecf.JcefToolWindowFactory"/>
 
-    <notificationGroup id="Custom Notification Group"
+    <toolWindow id="网页窗口" icon="AllIcons.Xml.Browsers.Chromium" anchor="right"
+      factoryClass="me.ylem.intellij.demo.jcef.JcefToolWindowFactory"/>
+
+    <toolWindow id="Click-Counter" icon="AllIcons.Actions.AddMulticaret" anchor="bottom"
+      order="last" secondary="true"
+      factoryClass="me.ylem.intellij.demo.tool.ButtonToolWindowFactory"/>
+
+    <notificationGroup id="Demo Notification Group"
       displayType="BALLOON"
       key="notification.group.name"/>
+
+    <statusBarWidgetFactory id="StatusWidget"
+      implementation="me.ylem.intellij.demo.statusbar.StatusWidget"
+    />
   </extensions>
 
+  <projectListeners>
+    <listener class="me.ylem.intellij.demo.tool.ButtonToolWindowManagerListener"
+      topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
+  </projectListeners>
 
   <actions>
     <action id="SelectWords" class="me.ylem.intellij.demo.action.SelectWordsAction"

@@ -1,4 +1,4 @@
-package me.ylem.intellij.demo.bundle;
+package me.ylem.intellij.demo;
 
 import com.intellij.DynamicBundle;
 import java.util.function.Supplier;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.PropertyKey;
  * @since 2024/09/17
  **/
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-final class ConfigBundle {
+public class ConfigBundle {
 
     @NonNls
     private static final String BUNDLE = "messages.ConfigBundle";

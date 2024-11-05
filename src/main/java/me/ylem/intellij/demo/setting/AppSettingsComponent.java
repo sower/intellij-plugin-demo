@@ -14,7 +14,9 @@ import org.jetbrains.annotations.NotNull;
 public class AppSettingsComponent {
 
     private final JPanel myMainPanel;
+
     private final JBTextField myUserNameText = new JBTextField();
+
     private final JBCheckBox myIdeaUserStatus = new JBCheckBox("IntelliJ IDEA user");
 
     public AppSettingsComponent() {

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 2024/08/25
  **/
 @State(
-    name = "main.java.me.ylem.intellij.demo.setting.AppSettings",
+    name = "me.ylem.intellij.demo.setting.AppSettings",
     storages = @Storage("DemoPlugin.xml")
 )
 final class AppSettings
