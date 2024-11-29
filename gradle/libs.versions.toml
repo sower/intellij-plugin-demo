@@ -5,7 +5,7 @@ lombok = "1.18.34"
 
 # plugins
 intelliJ = "1.17.4"
-#intelliJPlatform = "2.0.1"
+intelliJPlatform = "2.1.0"
 kotlin = "1.9.25"
 changelog = "2.2.1"
 
@@ -15,6 +15,6 @@ lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" 
 
 [plugins]
 intelliJ = { id = "org.jetbrains.intellij", version.ref = "intelliJ" }
-#intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
+intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
