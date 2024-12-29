@@ -19,7 +19,7 @@ public final class AppSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "SDK: Application Settings Example";
+        return "Code Demo";
     }
 
     @Override
@@ -36,24 +36,21 @@ public final class AppSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        AppSettings.State state =
-            Objects.requireNonNull(AppSettings.getInstance().getState());
-        return !mySettingsComponent.getUserNameText().equals(state.userId) ||
-            mySettingsComponent.getIdeaUserStatus() != state.ideaStatus;
+        AppSettings.State state = Objects.requireNonNull(AppSettings.getInstance().getState());
+        return !mySettingsComponent.getUserNameText().equals(state.userId)
+            || mySettingsComponent.getIdeaUserStatus() != state.ideaStatus;
     }
 
     @Override
     public void apply() {
-        AppSettings.State state =
-            Objects.requireNonNull(AppSettings.getInstance().getState());
+        AppSettings.State state = AppSettings.getInstance().getState();
         state.userId = mySettingsComponent.getUserNameText();
         state.ideaStatus = mySettingsComponent.getIdeaUserStatus();
     }
 
     @Override
     public void reset() {
-        AppSettings.State state =
-            Objects.requireNonNull(AppSettings.getInstance().getState());
+        AppSettings.State state = AppSettings.getInstance().getState();
         mySettingsComponent.setUserNameText(state.userId);
         mySettingsComponent.setIdeaUserStatus(state.ideaStatus);
     }

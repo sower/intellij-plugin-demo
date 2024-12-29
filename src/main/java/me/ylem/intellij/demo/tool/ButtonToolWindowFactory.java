@@ -5,6 +5,8 @@ import com.intellij.ide.plugins.CountIcon;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
+import com.intellij.ui.SizedIcon;
+import javax.swing.Icon;
 import kotlin.coroutines.Continuation;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -25,11 +27,11 @@ public class ButtonToolWindowFactory implements ToolWindowFactory {
         toolWindow.setIcon(getIcon("0"));
     }
 
-    private CountIcon getIcon(String text) {
+    private Icon getIcon(String text) {
         CountIcon countIcon = new CountIcon();
         countIcon.setIcon(Toolwindows.InfoEvents);
         countIcon.setText(text);
-        return countIcon;
+        return new SizedIcon(countIcon, 16, 16);
     }
 
     @Override

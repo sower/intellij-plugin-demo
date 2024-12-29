@@ -3,6 +3,7 @@ package me.ylem.intellij.demo.tool;
 import com.intellij.ide.plugins.CountIcon;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener;
+import com.intellij.ui.SizedIcon;
 import me.ylem.intellij.demo.ConfigBundle;
 import me.ylem.intellij.demo.notice.PluginNotifier;
 import org.jetbrains.annotations.NotNull;
@@ -29,9 +30,10 @@ public class ButtonToolWindowManagerListener implements ToolWindowManagerListene
         }
 
         toolWindow.hide();
-        CountIcon icon = (CountIcon) toolWindow.getIcon();
-        int count = Integer.parseInt(icon.getText());
-        icon.setText(String.valueOf(++count));
+        SizedIcon icon = (SizedIcon) toolWindow.getIcon();
+        CountIcon countIcon = (CountIcon) icon.retrieveIcon();
+        int count = Integer.parseInt(countIcon.getText());
+        countIcon.setText(String.valueOf(++count));
         toolWindow.setTitle("Counter " + count);
         PluginNotifier.warning(toolWindow.getProject(), "工具窗按钮触发通知");
     }

@@ -34,7 +34,7 @@ final class AppSettings
     }
 
     @Override
-    public State getState() {
+    public @NotNull State getState() {
         return myState;
     }
 
