@@ -49,6 +49,12 @@
     <statusBarWidgetFactory id="StatusWidget"
       implementation="me.ylem.intellij.demo.statusbar.StatusWidget"
     />
+
+    <typedHandler implementation="me.ylem.intellij.demo.listener.TypeListener"/>
+    <editorFactoryListener implementation="me.ylem.intellij.demo.listener.EditorListener"/>
+    <fileDocumentManagerListener
+      implementation="me.ylem.intellij.demo.listener.JavaFileDocumentManagerListener"/>
+
   </extensions>
 
   <projectListeners>

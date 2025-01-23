@@ -1,9 +1,14 @@
 package me.ylem.intellij.demo.psi;
 
+import com.intellij.openapi.editor.CaretModel;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ex.util.EditorUtil;
+import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiImportList;
@@ -13,16 +18,19 @@ import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiKeyword;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiStatement;
 import com.intellij.psi.PsiSubstitutor;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.PsiVariable;
 import com.intellij.psi.util.PsiFormatUtil;
 import com.intellij.psi.util.PsiFormatUtilBase;
+import com.intellij.psi.util.PsiTreeUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -44,8 +52,9 @@ public class PsiUtils {
             type = PsiKeyword.RECORD;
         }
         String modifiers = PsiFormatUtil.formatClass(psiClass, PsiFormatUtil.SHOW_MODIFIERS);
-        return modifiers + type + PsiFormatUtil.formatClass(psiClass,
+        String name = PsiFormatUtil.formatClass(psiClass,
             PsiFormatUtil.SHOW_NAME | PsiFormatUtil.SHOW_EXTENDS_IMPLEMENTS);
+        return String.join(StringUtils.SPACE, modifiers, type, name);
     }
 
 
@@ -121,6 +130,49 @@ public class PsiUtils {
             return type.getCanonicalText();
         }
         return null;
+    }
+
+    /**
+     * 查找方法体行号
+     *
+     * @param editor 编辑
+     * @return {@link Pair }<{@link Integer }, {@link Integer }>
+     */
+    public static Pair<Integer, Integer> findMethodBodyLineNumbers(Editor editor) {
+        CaretModel caretModel = editor.getCaretModel();
+        int offset = caretModel.getOffset();
+
+        Document document = editor.getDocument();
+        PsiFile psiFile = PsiDocumentManager.getInstance(editor.getProject()).getPsiFile(document);
+        if (psiFile == null) {
+            return Pair.empty();
+        }
+
+        PsiElement elementAtCaret = psiFile.findElementAt(offset);
+        if (elementAtCaret == null) {
+            return Pair.empty();
+        }
+
+        PsiMethod psiMethod = PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod.class);
+        if (psiMethod == null) {
+            return Pair.empty();
+        }
+        PsiCodeBlock methodBody = psiMethod.getBody();
+        if (methodBody == null) {
+            return Pair.empty();
+        }
+        PsiStatement[] statements = methodBody.getStatements();
+        int length = statements.length;
+        if (length < 1) {
+            return Pair.empty();
+        }
+        PsiElement firstBodyElement = statements[0];
+        PsiElement lastBodyElement = statements[length - 1];
+
+        int startLineNumber = document.getLineNumber(
+            firstBodyElement.getTextRange().getStartOffset());
+        int endLineNumber = document.getLineNumber(lastBodyElement.getTextRange().getEndOffset());
+        return Pair.create(startLineNumber, endLineNumber);
     }
 
 }
