@@ -1,5 +1,6 @@
 package me.ylem.intellij.demo.jcef;
 
+import com.intellij.openapi.Disposable;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -15,7 +16,7 @@ import org.cef.browser.CefBrowser;
  *
  * @since 2024/11/02
  **/
-public class DevToolsDialog extends JDialog {
+public class DevToolsDialog extends JDialog implements Disposable {
 
     CefBrowser devTools;
 
